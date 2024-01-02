@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="800" Width="600">
     <Grid>
-        <Frame x:Name="MwFrame">
+        <Frame x:Name="MwFrame" NavigationUIVisibility="Hidden">
             
         </Frame>
     </Grid>

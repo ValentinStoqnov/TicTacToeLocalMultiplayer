@@ -1,0 +1,28 @@
+﻿<Page x:Class="TicTacToe.WPFPages.ServerBrowserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TicTacToe.WPFPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ServerBrowserPage">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <ListView>
+            <ListViewItem Content="testlvitem1"/>
+            <ListViewItem Content="testlvitem2"/>
+            <ListViewItem Content="testlvitem3"/>
+            <ListViewItem Content="testlvitem4"/>
+            <ListViewItem Content="testlvitem5"/>
+        </ListView>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <Button x:Name="JoinBtn" Content="Join" Width="200" Margin="0,0,50,0" Click="JoinBtn_Click"/>
+            <Button x:Name="BackBtn" Content="Back" Width="200" Click="BackBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

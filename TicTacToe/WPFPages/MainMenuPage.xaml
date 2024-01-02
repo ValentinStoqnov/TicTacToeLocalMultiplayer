@@ -13,8 +13,8 @@
             <Label Content="TicTacToe Local Multiplayer" 
                    Margin="0,30,0,100"
                    FontSize="40"/>
-            <Button Content="SinglePlayer" IsEnabled="False" Height="40"/>
-            <Button Content="Local Multiplayer" Height="40"/>
+            <Button x:Name="SinglePlayerBtn" Content="SinglePlayer" IsEnabled="False" Height="40"/>
+            <Button x:Name="MultiPlayerBtn" Content="Local Multiplayer" Height="40" Click="MultiPlayerBtn_Click"/>
         </StackPanel>
     </Grid>
 </Page>
