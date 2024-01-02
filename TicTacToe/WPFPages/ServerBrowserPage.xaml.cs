@@ -16,21 +16,26 @@ using System.Windows.Shapes;
 namespace TicTacToe.WPFPages
 {
     /// <summary>
-    /// Interaction logic for MainMenuPage.xaml
+    /// Interaction logic for ServerBrowserPage.xaml
     /// </summary>
-    public partial class MainMenuPage : Page
+    public partial class ServerBrowserPage : Page
     {
         private MainWindow mainWindow;
-        
-        public MainMenuPage(MainWindow mw)
+
+        public ServerBrowserPage(MainWindow mw)
         {
             InitializeComponent();
             mainWindow = mw;
         }
 
-        private void MultiPlayerBtn_Click(object sender, RoutedEventArgs e)
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             mainWindow.MwFrame.Content = new JoinOrHostPage(mainWindow);
+        }
+
+        private void JoinBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

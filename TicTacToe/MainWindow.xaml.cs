@@ -11,7 +11,7 @@ namespace TicTacToe
         public MainWindow()
         {
             InitializeComponent();
-            MwFrame.Content = new MainMenuPage();
+            MwFrame.Content = new MainMenuPage(this);
         }
     }
 }
