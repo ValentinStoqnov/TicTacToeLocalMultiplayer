@@ -26,6 +26,7 @@ namespace TicTacToe.WPFPages
         {
             InitializeComponent();
             mainWindow = mw;
+            ServerLogic serverLogic = new ServerLogic();
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
