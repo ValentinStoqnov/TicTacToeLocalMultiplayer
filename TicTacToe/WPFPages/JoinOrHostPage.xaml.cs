@@ -23,7 +23,7 @@ namespace TicTacToe.WPFPages
 
         private void HostGameBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            mainWindow.MwFrame.Content = new WaitingPage(mainWindow);
         }
 
         private void BackBtn_Click(object sender, System.Windows.RoutedEventArgs e)
