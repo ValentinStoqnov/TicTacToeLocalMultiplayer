@@ -14,7 +14,7 @@
                    Margin="0,30,0,0"
                    FontSize="20"
                    HorizontalAlignment="Center"/>
-            <TextBox Margin="0,0,0,100" Width="200"/>
+            <TextBox x:Name="NameTextBox" Margin="0,0,0,100" Width="200" />
             <Button x:Name="JoinGameBtn" Content="Join a game" Height="40" Click="JoinGameBtn_Click" />
             <Button x:Name="HostGameBtn" Content="Host a game" Height="40" Click="HostGameBtn_Click" />
             <Button x:Name="BackBtn" Content="Main Menu" Height="40" Margin="0,100,0,0" Click="BackBtn_Click"/>
