@@ -13,12 +13,8 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <ListView>
-            <ListViewItem Content="testlvitem1"/>
-            <ListViewItem Content="testlvitem2"/>
-            <ListViewItem Content="testlvitem3"/>
-            <ListViewItem Content="testlvitem4"/>
-            <ListViewItem Content="testlvitem5"/>
+        <ListView x:Name="ServerBrowserLv" ItemsSource="{Binding ServerList}">
+            
         </ListView>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button x:Name="JoinBtn" Content="Join" Width="200" Margin="0,0,50,0" Click="JoinBtn_Click"/>
