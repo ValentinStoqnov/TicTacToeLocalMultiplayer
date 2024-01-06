@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using TicTacToe.Models;
 
 namespace TicTacToe.WPFPages
 {
@@ -10,15 +11,19 @@ namespace TicTacToe.WPFPages
     public partial class ServerBrowserPage : Page
     {
         private MainWindow mainWindow;
-        public ObservableCollection<string> ServerList { get; set; }
+        private ClientLogic client;
+        public ObservableCollection<ServerModel>? ServerList { get; set; }
 
         public ServerBrowserPage(MainWindow mw)
         {
             InitializeComponent();
             mainWindow = mw;
-            ServerList = ClientLogic.GetAllServerNames().Result;
-            ServerBrowserLv.ItemsSource = ServerList;
-
+            client = new ClientLogic("PlaceHolderPLayerName");
+            GetServerList();
+        }
+        private async void GetServerList()
+        {
+            ServerList = await client.RequestServerNames();
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
@@ -26,9 +31,16 @@ namespace TicTacToe.WPFPages
             mainWindow.MwFrame.Content = new JoinOrHostPage(mainWindow);
         }
 
-        private void JoinBtn_Click(object sender, RoutedEventArgs e)
+        private async void JoinBtn_Click(object sender, RoutedEventArgs e)
         {
+            ServerModel? serverChosen = ServerBrowserLv.SelectedItem as ServerModel;
+            bool canStartGame = await client.JoinServer(serverChosen);
+            if (canStartGame)
+            {
+                client.StartGame();
+                mainWindow.MwFrame.Content = new GamePage(ClientType.Client, client);
 
+            }
         }
     }
 }

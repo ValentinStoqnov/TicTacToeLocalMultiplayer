@@ -9,12 +9,22 @@ namespace TicTacToe.WPFPages
     public partial class WaitingPage : Page
     {
         private MainWindow mainWindow;
+
+        ServerLogic server;
         
         public WaitingPage(MainWindow mw, string hostName)
         {
             InitializeComponent();
             mainWindow = mw;
-            ServerLogic serverLogic = new ServerLogic(hostName);
+            server = new ServerLogic(hostName);
+            StartServer(hostName);
+        }
+
+        private async void StartServer(string hostName)
+        {
+            bool isGameStarted = await server.StartServer(hostName);
+            mainWindow.MwFrame.Content = new GamePage(ClientType.Server,server);
+            if (isGameStarted) server.StartGame(hostName);
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

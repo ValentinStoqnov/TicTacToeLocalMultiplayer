@@ -11,6 +11,7 @@ namespace TicTacToe
         public MainWindow()
         {
             InitializeComponent();
+            //MwFrame.Content = new GamePage(ClientType.Client);      //For Debuging
             MwFrame.Content = new MainMenuPage(this);
         }
     }
