@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TicTacToe.WPFPages"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ServerBrowserPage">
 
@@ -13,8 +13,15 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="ServerBrowserLv" ItemsSource="{Binding ServerList}">
-            
+        <ListView x:Name="ServerBrowserLv" ItemsSource="{Binding ServerList,RelativeSource={RelativeSource AncestorType=Page}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=ServerName}" Margin="0,0,50,0"/>
+                        <TextBlock Text="{Binding Path=ServerIp}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button x:Name="JoinBtn" Content="Join" Width="200" Margin="0,0,50,0" Click="JoinBtn_Click"/>
