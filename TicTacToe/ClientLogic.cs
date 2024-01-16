@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TicTacToe.WPFPages;
 using System.Collections.ObjectModel;
 using TicTacToe.Models;
+using System;
 
 namespace TicTacToe
 {
@@ -15,7 +16,8 @@ namespace TicTacToe
         string _playerName;
         IPEndPoint joinedServerEndpoint;
         Socket gameSocket;
-        
+        public event EventHandler<GameActionEventArgs> ReceivedGameActionEvent;
+
         public ClientLogic(string playerName)
         {
             _playerName = playerName;
@@ -109,8 +111,46 @@ namespace TicTacToe
             Socket GameSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             GameSocket.Connect(joinedServerEndpoint);
             gameSocket = GameSocket;
-            
+
+            bool isGameRuning = true;
+            while (isGameRuning)
+            {
+                byte[] buffer = new byte[1024];
+                var receivedMsgInBytes = await gameSocket.ReceiveAsync(buffer, SocketFlags.None);
+                if (receivedMsgInBytes > 0)
+                {
+                    PacketReader packetReader = new PacketReader(buffer);
+                    PacketSender packetSender;
+                    OperationFlags operationFlag = packetReader.GetOperationFlag();
+                    switch (operationFlag)
+                    {
+                        case OperationFlags.Null:
+                            break;
+                        case OperationFlags.MessageString:
+                            break;
+                        case OperationFlags.Request:
+                            break;
+                        case OperationFlags.GameAction:
+                            GameActions receivedAction = packetReader.GetGameAction();
+                            OnReceivedGameActionEvent(new GameActionEventArgs(receivedAction));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
         }
+
+        private void OnReceivedGameActionEvent(GameActionEventArgs gameActionEventArgs)
+        {
+            EventHandler<GameActionEventArgs> raiseEvent = ReceivedGameActionEvent;
+            if (raiseEvent != null)
+            {
+                raiseEvent(this, gameActionEventArgs);
+            }
+        }
+
         public async void SendButtonClicked(int buttonTag)
         {
             GameActions actionToSend = (GameActions)buttonTag;
