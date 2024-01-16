@@ -24,6 +24,11 @@
         BottomMiddleButtonClicked = 32,
         BottomRightButtonClicked = 33
     }
+    public enum PlayerMark
+    {
+        X = 1,
+        O = 2
+    }
 
     public enum ClientType
     { 
