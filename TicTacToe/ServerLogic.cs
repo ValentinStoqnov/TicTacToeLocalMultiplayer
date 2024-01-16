@@ -12,6 +12,7 @@ namespace TicTacToe
     public class ServerLogic
     {
         Socket serverSocket;
+        Socket connectedSocket;
         public event EventHandler<GameActionEventArgs> ReceivedGameActionEvent;
 
         public ServerLogic(string serverName)
@@ -65,6 +66,7 @@ namespace TicTacToe
         public async void StartGame(string serverName)
         {
             var handler = await serverSocket.AcceptAsync();
+            connectedSocket = handler;
             if (handler.Connected)
             {
                 bool isGameRuning = true;
@@ -110,7 +112,17 @@ namespace TicTacToe
                 }
             }
         }
-
+        public async void SendBackAcceptedGameAction(GameActionEventArgs e)
+        {
+            PacketSender packetSender = new PacketSender(OperationFlags.GameAction, e.receivedGameAction);
+            await connectedSocket.SendAsync(packetSender.GetPacketBytes(), SocketFlags.None);
+        }
+        public async void SendButtonClicked(int buttonTag)
+        {
+            GameActions actionToSend = (GameActions)buttonTag;
+            PacketSender packetSender = new PacketSender(OperationFlags.GameAction, actionToSend); // placeholder
+            await connectedSocket.SendAsync(packetSender.GetPacketBytes(), SocketFlags.None);
+        }
         protected virtual void OnReceivedGameActionEvent(GameActionEventArgs e)
         {
             EventHandler<GameActionEventArgs> raiseEvent = ReceivedGameActionEvent;
