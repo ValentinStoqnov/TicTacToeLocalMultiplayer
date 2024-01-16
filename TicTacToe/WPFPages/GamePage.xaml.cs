@@ -33,7 +33,9 @@ namespace TicTacToe.WPFPages
         public GamePage(ClientType clientType, ClientLogic client) : this(clientType)
         {
             clientLogic = client;
+            clientLogic.ReceivedGameActionEvent += ClientLogic_ReceivedGameActionEvent;
         }
+
         public GamePage(ClientType clientType, ServerLogic server) : this(clientType)
         {
             serverLogic = server;
@@ -41,6 +43,17 @@ namespace TicTacToe.WPFPages
         }
 
         private void ServerLogic_ReceivedGameActionEvent(object? sender, GameActionEventArgs e)
+        {
+            foreach (Button b in ButtonsWrapPanel.Children)
+            {
+                if (Int32.Parse(b.Tag.ToString()) == (int)e.receivedGameAction)
+                {
+                    b.Content = "x";
+                    serverLogic.SendBackAcceptedGameAction(e);
+                }
+            }
+        }
+        private void ClientLogic_ReceivedGameActionEvent(object? sender, GameActionEventArgs e)
         {
             foreach (Button b in ButtonsWrapPanel.Children)
             {
@@ -62,6 +75,8 @@ namespace TicTacToe.WPFPages
                     clientLogic.SendButtonClicked(buttonTag);
                     break;
                 case ClientType.Server:
+                    serverLogic.SendButtonClicked(buttonTag);
+                    btn.Content = "x";
                     break;
                 default:
                     break;
