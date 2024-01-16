@@ -41,5 +41,11 @@ namespace TicTacToe.WPFPages
             GameActions GameActions = (GameActions)action;
             return GameActions;
         }
+        public PlayerMark GetPlayerMark()
+        {
+            int mark = ms.ReadByte();
+            PlayerMark PlayerMark = (PlayerMark)mark;
+            return PlayerMark;
+        }
     }
 }
