@@ -24,6 +24,7 @@ namespace TicTacToe.WPFPages
         ClientType clientType;
         ClientLogic clientLogic;
         ServerLogic serverLogic;
+        GameLogic gameLogic;    
 
         private GamePage(ClientType clientType)
         {
@@ -39,6 +40,7 @@ namespace TicTacToe.WPFPages
         public GamePage(ClientType clientType, ServerLogic server) : this(clientType)
         {
             serverLogic = server;
+            gameLogic = new GameLogic();
             serverLogic.ReceivedGameActionEvent += ServerLogic_ReceivedGameActionEvent;
         }
 
@@ -48,8 +50,11 @@ namespace TicTacToe.WPFPages
             {
                 if (Int32.Parse(b.Tag.ToString()) == (int)e.receivedGameAction)
                 {
-                    b.Content = "x";
-                    serverLogic.SendBackAcceptedGameAction(e);
+                    if (gameLogic.CheckIfGameActionLegal(2,b))
+                    {
+                        b.Content = "o";
+                        serverLogic.SendBackAcceptedGameAction(e);
+                    }    
                 }
             }
         }
@@ -59,7 +64,15 @@ namespace TicTacToe.WPFPages
             {
                 if (Int32.Parse(b.Tag.ToString()) == (int)e.receivedGameAction)
                 {
-                    b.Content = "x";
+                    switch (e.receivedPlayerMark)
+                    {
+                        case PlayerMark.X:
+                            b.Content ="x";
+                            break;
+                        case PlayerMark.O:
+                            b.Content = "o";
+                            break;
+                    }
                 }
             }
         }
@@ -75,12 +88,21 @@ namespace TicTacToe.WPFPages
                     clientLogic.SendButtonClicked(buttonTag);
                     break;
                 case ClientType.Server:
-                    serverLogic.SendButtonClicked(buttonTag);
-                    btn.Content = "x";
+                    if (gameLogic.CheckIfGameActionLegal(1,btn))
+                    {
+                        serverLogic.SendButtonClicked(buttonTag);
+                        btn.Content = "x";
+                    }
                     break;
                 default:
                     break;
             }
+        }
+        private List<Button> CreateGameStateButtonsList()
+        {
+            List<Button> buttons = new List<Button>();
+            foreach (Button b in ButtonsWrapPanel.Children) buttons.Add(b);
+            return buttons;
         }
     }
 }
