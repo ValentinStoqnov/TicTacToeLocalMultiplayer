@@ -20,9 +20,10 @@ namespace TicTacToe
         {
             WriteRequest(request);
         }
-        public PacketSender(OperationFlags operationFlags, GameActions gameAction) : this(operationFlags)
+        public PacketSender(OperationFlags operationFlags, GameActions gameAction,PlayerMark playerMark) : this(operationFlags)
         {
             WriteGameAction(gameAction);
+            WritePlayerMark(playerMark);
         }
         private void WriteOperationFlag(OperationFlags operationFlags)
         {
@@ -40,6 +41,10 @@ namespace TicTacToe
         private void WriteGameAction(GameActions gameAction)
         {
             memoryStream.WriteByte((byte)gameAction);
+        }
+        private void WritePlayerMark(PlayerMark playerMark)
+        {
+            memoryStream.WriteByte((byte)playerMark);
         }
         public byte[] GetPacketBytes()
         {
