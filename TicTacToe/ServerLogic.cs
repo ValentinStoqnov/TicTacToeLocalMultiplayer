@@ -103,7 +103,8 @@ namespace TicTacToe
                                 break;
                             case OperationFlags.GameAction:
                                 GameActions receivedAction = packetReader.GetGameAction();
-                                OnReceivedGameActionEvent(new GameActionEventArgs(receivedAction));
+                                PlayerMark receivedPlayerMark = packetReader.GetPlayerMark();
+                                OnReceivedGameActionEvent(new GameActionEventArgs(receivedAction, receivedPlayerMark));
                                 break;
                             default:
                                 break;
@@ -114,13 +115,13 @@ namespace TicTacToe
         }
         public async void SendBackAcceptedGameAction(GameActionEventArgs e)
         {
-            PacketSender packetSender = new PacketSender(OperationFlags.GameAction, e.receivedGameAction);
+            PacketSender packetSender = new PacketSender(OperationFlags.GameAction, e.receivedGameAction, e.receivedPlayerMark);
             await connectedSocket.SendAsync(packetSender.GetPacketBytes(), SocketFlags.None);
         }
         public async void SendButtonClicked(int buttonTag)
         {
             GameActions actionToSend = (GameActions)buttonTag;
-            PacketSender packetSender = new PacketSender(OperationFlags.GameAction, actionToSend); // placeholder
+            PacketSender packetSender = new PacketSender(OperationFlags.GameAction, actionToSend, PlayerMark.X); // placeholder
             await connectedSocket.SendAsync(packetSender.GetPacketBytes(), SocketFlags.None);
         }
         protected virtual void OnReceivedGameActionEvent(GameActionEventArgs e)
